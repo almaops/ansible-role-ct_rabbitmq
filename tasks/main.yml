@@ -1,0 +1,47 @@
+---
+- name: "{{ ct_rabbitmq_task_prefix }} Load persistent volumes"
+  include_vars: "persist_data.yml"
+  when: ct_rabbitmq_persist_data
+
+- name: "{{ ct_rabbitmq_task_prefix }} Load management port"
+  include_vars: "management_port.yml"
+  when: ct_rabbitmq_enable_management_port
+
+- name: "{{ ct_rabbitmq_task_prefix }} Create config directory"
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0755'
+    recurse: true
+  loop:
+    - "{{ ct_rabbitmq_path_config_base }}"
+
+- name: "{{ ct_rabbitmq_task_prefix }} Create data directory"
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0755'
+    recurse: true
+  loop:
+    - "{{ ct_rabbitmq_path_data }}"
+  when: ct_rabbitmq_persist_data
+
+- name: "{{ ct_rabbitmq_task_prefix }} Create env file"
+  template:
+    src: "{{ ct_rabbitmq_template_env }}"
+    dest: "{{ ct_rabbitmq_path_config_file }}"
+    mode: '0644'
+
+- name: "{{ ct_rabbitmq_task_prefix }} Create container"
+  docker_container:
+    name: "{{ ct_rabbitmq_ct_name }}"
+    image: "{{ ct_rabbitmq_ct_image }}:{{ ct_rabbitmq_ct_version }}"
+    ports: "{{ ct_rabbitmq_ct_ports }}"
+    env_file: "{{ ct_rabbitmq_path_config_file }}"
+    restart_policy: "{{ ct_rabbitmq_ct_restart_policy }}"
+    state: "{{ ct_rabbitmq_ct_state }}"
+    restart: "{{ ct_rabbitmq_ct_restart }}"
+    pull: "{{ ct_rabbitmq_ct_pull }}"
+    recreate: "{{ ct_rabbitmq_ct_recreate }}"
+    volumes: "{{ ct_rabbitmq_ct_volumes }}"
+...

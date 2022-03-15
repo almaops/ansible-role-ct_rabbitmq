@@ -1,0 +1,4 @@
+---
+ct_rabbitmq_ct_ports_mgmt:
+  - "{{ ct_rabbitmq_bind_addr_mgmt }}:{{ ct_rabbitmq_bind_port_mgmt }}:{{ ct_rabbitmq_bind_ct_port_mgmt }}"
+...

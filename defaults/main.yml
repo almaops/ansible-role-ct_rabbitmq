@@ -1,0 +1,40 @@
+---
+ct_rabbitmq_task_prefix: "=== RABBITMQ CT ==="
+# Common settings
+ct_rabbitmq_persist_data: false
+ct_rabbitmq_enable_management_port: true
+# File names
+ct_rabbitmq_template_env: "env.j2"
+ct_rabbitmq_file_env: "{{ ct_rabbitmq_ct_name }}.env"
+# Path settings
+ct_rabbitmq_path_config_base: "/etc/ct_rabbitmq"
+ct_rabbitmq_path_config_file: "{{ ct_rabbitmq_path_config_base }}/{{ ct_rabbitmq_file_env }}"
+ct_rabbitmq_path_base: "/srv/ct_rabbitmq"
+ct_rabbitmq_path_data: "{{ ct_rabbitmq_path_base }}/{{ ct_rabbitmq_ct_name }}"
+ct_rabbitmq_path_ct_data: "/var/lib/rabbitmq"
+# Network settings
+ct_rabbitmq_bind_addr: "127.0.0.1"
+ct_rabbitmq_bind_addr_amqp: "{{ ct_rabbitmq_bind_addr }}"
+ct_rabbitmq_bind_addr_mgmt: "{{ ct_rabbitmq_bind_addr }}"
+ct_rabbitmq_bind_port_amqp: "5672"
+ct_rabbitmq_bind_port_mgmt: "15672"
+ct_rabbitmq_bind_ct_port_amqp: "5672"
+ct_rabbitmq_bind_ct_port_mgmt: "15672"
+# Container settings
+ct_rabbitmq_ct_name: "rabbitmq"
+ct_rabbitmq_ct_image: "rabbitmq"
+ct_rabbitmq_ct_version: "management"
+ct_rabbitmq_ct_restart_policy: "always"
+ct_rabbitmq_ct_state: "started"
+ct_rabbitmq_ct_restart: "no"
+ct_rabbitmq_ct_pull: "no"
+ct_rabbitmq_ct_recreate: "no"
+ct_rabbitmq_ct_volumes: []
+ct_rabbitmq_ct_ports_ampq:
+  - "{{ ct_rabbitmq_bind_addr_amqp }}:{{ ct_rabbitmq_bind_port_amqp }}:{{ ct_rabbitmq_bind_ct_port_amqp }}"
+ct_rabbitmq_ct_ports_mgmt: []
+ct_rabbitmq_ct_ports: "{{ ct_rabbitmq_ct_ports_ampq + ct_rabbitmq_ct_ports_mgmt }}"
+# Environment variables
+ct_rabbitmq_env_rabbitmq_default_user: "admin"
+ct_rabbitmq_env_rabbitmq_default_pass: "changeme"
+...

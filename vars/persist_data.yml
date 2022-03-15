@@ -1,0 +1,4 @@
+---
+ct_rabbitmq_ct_volumes:
+  - "{{ ct_rabbitmq_path_data }}:{{ ct_rabbitmq_path_ct_data }}"
+...
