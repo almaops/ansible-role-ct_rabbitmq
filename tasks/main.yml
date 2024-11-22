@@ -20,7 +20,7 @@
   file:
     path: "{{ item }}"
     state: directory
-    mode: '0755'
+    mode: '0700'
     recurse: true
   loop:
     - "{{ ct_rabbitmq_path_data }}"
